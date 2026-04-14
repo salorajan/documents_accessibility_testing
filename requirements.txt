@@ -1,0 +1,4 @@
+beautifulsoup4==4.12.3
+mistune==3.0.2
+colorama==0.4.6
+lxml==5.1.0
