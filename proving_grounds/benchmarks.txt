@@ -1,0 +1,10 @@
+fail_alt.html:1 
+fail_headings.html:1 
+fail_links.html:1 
+fail_labels.html:1 
+fail_empty_h.html:1 
+fail_lang_part.html:1 
+fail_keyboard.html:1 
+fail_contrast.html:1 
+fail_ids.html:1 
+fail_junk_alt.html:1 
