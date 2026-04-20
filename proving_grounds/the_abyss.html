@@ -1,0 +1,43 @@
+<html lang="fr">
+<head>
+    <title>WCAG RESEARCH: THE ABYSS</title>
+    <style>
+        /* VIOLATION 2: Cursor Sabotage - hide the mouse so user must use keyboard */
+        body { cursor: none !important; color: #FFFFFF; background-color: #FFFFFF; } 
+        
+        /* VIOLATION 3: Focus Hijack - make the focus ring invisible (SC 2.4.7) */
+        *:focus { outline: none !important; border: none !important; }
+
+        /* VIOLATION 4: Text as Image - crucial info is non-selectable CSS pixels */
+        .scary-text::before { content: "DANGER: SYSTEM FAILURE IMMINENT"; color: red; }
+    </style>
+</head>
+<body aria-busy="true"> <div aria-hidden="true"> <h1>1.0 THE ABYSS LANDMARK</h1>
+        
+        <div id="trap" tabindex="0">
+            <p>You have entered the focus trap. You can never Tab out.</p>
+            <button onfocus="document.getElementById('trap').focus();">EXIT (Lies)</button>
+        </div>
+
+        <div style="width:100px; height:100px; background:red; animation: blinker 0.2s linear infinite;"></div>
+        <script>
+            @keyframes blinker { 50% { opacity: 0; } }
+        </script>
+
+        <input type="text" style="opacity:0.01"> <div id="status">System Stable...</div>
+    </div>
+
+    <script>
+        // VIOLATION 11: Auto-refresh/Redirect every 10 seconds (SC 2.2.1)
+        setTimeout(() => { location.reload(); }, 10000);
+        
+        // VIOLATION 12: Hijack the 'Tab' key entirely
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                console.log("Tab is disabled in the Abyss.");
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
