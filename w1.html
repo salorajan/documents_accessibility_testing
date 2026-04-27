@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!-- VIOLATION 3.1.1 (Level A): Missing lang attribute on the html element -->
+<head>
+    <meta charset="UTF-8">
+    <title>WCAG 2.2 Torture Test - 1000 Violations</title>
+    <style>
+        /* VIOLATION 2.4.7 & 2.4.13: Global removal of focus indicators */
+        *:focus { outline: none !important; }
+
+        /* VIOLATION 1.4.3: Low contrast everywhere (Light gray on white) */
+        body { color: #949494; background-color: #ffffff; font-family: sans-serif; }
+
+        /* VIOLATION 1.4.10: Fixed width container prevents reflow */
+        .fixed-container { width: 2000px; border: 5px solid red; }
+
+        /* VIOLATION 2.4.11 (New 2.2): Sticky header that obscures focus */
+        .sticky-header {
+            position: fixed; top: 0; width: 100%; height: 100px;
+            background: rgba(0,0,0,0.9); color: white; z-index: 9999;
+        }
+
+        /* VIOLATION 2.5.8 (New 2.2): Tiny targets */
+        .tiny-link { width: 5px; height: 5px; display: inline-block; background: blue; }
+
+        /* VIOLATION 1.4.12: Text spacing override */
+        p { line-height: 1 !important; letter-spacing: 0 !important; }
+
+        .error-text { color: red; } /* VIOLATION 1.4.1: Color as only means of info */
+    </style>
+</head>
+<body>
+
+<div class="sticky-header">
+    <h1>WCAG 2.2 Failure Gallery (1000 Elements)</h1>
+    <p>This header will obscure elements when you tab to them (Failure of 2.4.11).</p>
+</div>
+
+<main style="margin-top: 120px;">
+
+    <!-- SECTION 1: IMAGES & MULTIMEDIA (Elements 1-100) -->
+    <!-- VIOLATION 1.1.1: Missing alt, empty alt on functional images, or filename as alt -->
+    <section>
+        <h2>1. Images (100 elements)</h2>
+        <script>
+            for(let i=0; i<100; i++) {
+                document.write(`<img src="https://via.placeholder.com/50" title="Image ${i}"> `); 
+                // Failure: No alt attribute, relying on title which is not a substitute.
+            }
+        </script>
+    </section>
+
+    <!-- SECTION 2: FORMS & INPUTS (Elements 101-300) -->
+    <section>
+        <h2>2. Forms & Redundant Entry (200 elements)</h2>
+        <!-- VIOLATION 3.3.7 (New 2.2): Redundant Entry. Asking for the same info twice without auto-fill. -->
+        <form>
+            <div id="form-failure-group">
+                <script>
+                    for(let i=0; i<50; i++) {
+                        document.write(`
+                            <div>
+                                <p>Enter your Mailing Address Part ${i}:</p>
+                                <input type="text" placeholder="No label here"> 
+                                <!-- VIOLATION 3.3.2: Missing label, placeholder only -->
+                                
+                                <p>Re-enter Address Part ${i} (No autocomplete):</p>
+                                <input type="text" name="redundant_${i}">
+                                <!-- VIOLATION 3.3.7: Redundant entry failure -->
+                            </div>
+                        `);
+                    }
+                </script>
+            </div>
+        </form>
+    </section>
+
+    <!-- SECTION 3: NAVIGATION & TARGET SIZE (Elements 301-500) -->
+    <section>
+        <h2>3. Target Size & Links (200 elements)</h2>
+        <!-- VIOLATION 2.5.8 (New 2.2): Target Size (Minimum). Small icons too close together. -->
+        <div class="toolbar">
+            <script>
+                for(let i=0; i<100; i++) {
+                    document.write(`<a href="#" class="tiny-link" style="margin: 1px;">&nbsp;</a>`);
+                }
+            </script>
+        </div>
+        <!-- VIOLATION 2.4.4: Non-descriptive links -->
+        <div>
+            <script>
+                for(let i=0; i<100; i++) {
+                    document.write(`<a href="#fail">Click here</a> `);
+                }
+            </script>
+        </div>
+    </section>
+
+    <!-- SECTION 4: STRUCTURE & SEMANTICS (Elements 501-700) -->
+    <section>
+        <h2>4. Semantic Failures (200 elements)</h2>
+        <!-- VIOLATION 1.3.1: Info and Relationships. Using divs instead of lists/headings. -->
+        <div id="bad-list">
+            <script>
+                for(let i=0; i<100; i++) {
+                    document.write(`<div class="list-item">• Fake list item ${i}</div>`);
+                }
+            </script>
+        </div>
+        <!-- VIOLATION 2.4.1: Missing bypass blocks (No skip links) and skipped heading levels -->
+        <div style="font-size: 2em; font-weight: bold;">This looks like an H1 but is a Div</div>
+        <h5>This is an H5 (Skipped H2, H3, H4)</h5>
+        <script>
+            for(let i=0; i<98; i++) {
+                document.write(`<h6>Empty or duplicate heading ${i}</h6><h6></h6>`);
+            }
+        </script>
+    </section>
+
+    <!-- SECTION 5: INTERACTIVE & KEYBOARD (Elements 701-900) -->
+    <section>
+        <h2>5. Keyboard & Focus (200 elements)</h2>
+        <!-- VIOLATION 2.1.1: Click events on non-focusable elements -->
+        <script>
+            for(let i=0; i<100; i++) {
+                document.write(`<div onclick="alert('Fail')" style="cursor:pointer; color:blue;">Clickable Div ${i} (Not keyboard accessible)</div>`);
+            }
+        </script>
+        <!-- VIOLATION 2.4.3: Tab order failure (tabindex > 0) -->
+        <script>
+            for(let i=0; i<100; i++) {
+                document.write(`<button tabindex="${1000-i}">Random Tab Index ${i}</button>`);
+            }
+        </script>
+    </section>
+
+    <!-- SECTION 6: TABLES & DATA (Elements 901-1000) -->
+    <section>
+        <h2>6. Data Tables (100 elements)</h2>
+        <!-- VIOLATION 1.3.1: Tables for layout or tables without headers -->
+        <table>
+            <script>
+                for(let i=0; i<25; i++) {
+                    document.write(`
+                        <tr>
+                            <td>Bad Data ${i}.1</td>
+                            <td>Bad Data ${i}.2</td>
+                            <td>Bad Data ${i}.3</td>
+                            <td>Bad Data ${i}.4</td>
+                        </tr>
+                    `);
+                }
+            </script>
+        </table>
+    </section>
+
+    <!-- SECTION 7: DRAGGING & AUTHENTICATION (New 2.2 Highlights) -->
+    <section>
+        <h2>7. Dragging & Auth (Final items)</h2>
+        <!-- VIOLATION 2.5.7 (New 2.2): Dragging Movements. No single-pointer alternative. -->
+        <div id="drag-zone" style="width: 300px; height: 100px; background: #eee;">
+            Drag this item to delete (No buttons provided).
+        </div>
+
+        <!-- VIOLATION 3.3.8 (New 2.2): Accessible Authentication. Cognitive puzzle required. -->
+        <div class="auth-fail">
+            <p>To log in, solve this math problem: 149 * 3 / 7 + (Square root of 16).</p>
+            <input type="text">
+        </div>
+    </section>
+
+</main>
+
+<!-- VIOLATION 4.1.2: Name, Role, Value. Custom components without ARIA -->
+<div class="custom-checkbox" onclick="this.classList.toggle('checked')">
+    I am a checkbox but screen readers think I am a div.
+</div>
+
+</body>
+</html>
+ 
